@@ -40,7 +40,12 @@ function getPDO(): PDO
 </head>
 
 <body>
+    <?php
 
+    /** `ROUTE` split on '/' */
+    $route = explode("/", trim(ROUTE, "/"));
+
+    ?>
 </body>
 
 </html>
