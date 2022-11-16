@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 session_start();
 
+
+require_once("classes/Pages.php");
+
+
+
 /** The root of the url also the path of the current folder
  * 
  * ROOT is defined in `.htaccess`
@@ -44,7 +49,7 @@ function getPDO(): PDO
 
     /** `ROUTE` split on '/' */
     $route = explode("/", trim(ROUTE, "/"));
-
+    require_once("requierd/header.php");
     ?>
 </body>
 

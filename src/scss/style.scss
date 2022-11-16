@@ -2,17 +2,17 @@ $body-bg: #EDE0D4;
 $body-color: black;
 
 $primary: #B08968;
-$secondary: #DDB892;
-$light: #EDE0D4;
+$secondary: #d4b69a;
+$light: #dfc6ae;
 $dark: #7F5539;
 
-$navbar-light-color: $dark;
-$navbar-light-hover-color: $dark;
-$navbar-dark-color: $light;
-$navbar-dark-hover-color: $light;
+$navbar-light-color: $light;
+$navbar-light-hover-color: $light;
+$navbar-dark-color: $dark;
+$navbar-dark-hover-color: $dark;
 
-$navbar-light-active-color: $dark;
-$navbar-dark-active-color: $light;
+$navbar-light-active-color: $light;
+$navbar-dark-active-color: $dark;
 
 $box-shadow: 4px 4px 12px rgba($primary, .5);
 $box-shadow-sm: 2px 2px 6px rgba($secondary, .5);
