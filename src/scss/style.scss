@@ -1,0 +1,68 @@
+$body-bg: #EDE0D4;
+$body-color: black;
+
+$primary: #B08968;
+$secondary: #DDB892;
+$light: #EDE0D4;
+$dark: #7F5539;
+
+$navbar-light-color: $dark;
+$navbar-light-hover-color: $dark;
+$navbar-dark-color: $light;
+$navbar-dark-hover-color: $light;
+
+$navbar-light-active-color: $dark;
+$navbar-dark-active-color: $light;
+
+$box-shadow: 4px 4px 12px rgba($primary, .5);
+$box-shadow-sm: 2px 2px 6px rgba($secondary, .5);
+
+$input-bg: $light;
+$input-placeholder-color: $secondary;
+$input-border-color: $light;
+
+$font-family-sans-serif: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-base: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$input-box-shadow: $box-shadow-sm;
+$input-focus-box-shadow: 0 0 0 4px $secondary;
+$btn-box-shadow: 0 0 0 0 $secondary;
+$btn-active-box-shadow: 0 0 0 0 $secondary;
+$btn-focus-box-shadow: 0 0 0 4px $secondary;
+$form-select-box-shadow: $box-shadow-sm;
+$form-select-focus-box-shadow: 0 0 0 4px $secondary;
+
+$table-bg: $light;
+$table-accent-bg: $light;
+$table-border-width: 0;
+
+$enable-shadows: true;
+
+@import "bootstrap/bootstrap";
+
+.btn-primary {
+    @include button-variant($primary, $primary, $light, $hover-color: $light, $active-color: $light);
+}
+
+.btn-secondary {
+    @include button-variant($secondary, $secondary, $light, $hover-color: $light, $active-color: $light);
+}
+
+.btn-light {
+    @include button-variant($light, $light, $dark, $hover-color: $dark, $active-color: $dark);
+}
+
+.btn-dark {
+    @include button-variant($dark, $dark, $light, $hover-color: $light, $active-color: $light);
+}
+
+.gradient {
+    background: linear-gradient(-45deg, #495464 0%, #828997 100%);
+}
+
+.mainpage-content {
+    margin-top: -3rem;
+    height: 100vh;
+    background: linear-gradient(#F4F4F2 0%, #E8E8E8 25rem);
+    border-radius: 1rem;
+}
