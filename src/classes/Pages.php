@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 class Pages 
 {
+    /**Gets all the file names is the pages fold*/
     public static function getPagesFileNames() : array
     {
         $result = array();
@@ -14,14 +15,6 @@ class Pages
         }
         return $result;
     }
-    public static function getHeader()
-    {
-        $page = substr($_SERVER["REQUEST_URI"], 10);
-        $dotPos = strpos($page, "?");
-        if($dotPos)
-            return substr($page, 0, $dotPos);
-        return $page;
-       
-    }
+    
 }
 ?>

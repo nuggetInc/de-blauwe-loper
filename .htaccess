@@ -5,4 +5,5 @@ RewriteCond %{DOCUMENT_ROOT}%1/public%2 -f
 RewriteRule ^(.*)$ public/$1 [END]
 
 RewriteCond %{REQUEST_URI}::/$1 ^(.+?)(/.*)::\2$
+RewriteCond %{REQUEST_URI} !(.png|.jpg|.jpeg)$ [NC]
 RewriteRule ^(.*)$ src/index.php [END,QSA,E=ROOT:%1,E=ROUTE:%2]
