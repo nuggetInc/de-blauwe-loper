@@ -9,7 +9,7 @@ class Member
     private function __construct(
         private int $id,
         private int $userId,
-        private int $birthdate,
+        private string $birthdate,
         private string $phone,
         private string $email,
     ) {
@@ -45,7 +45,7 @@ class Member
         return User::get($this->userId);
     }
 
-    public static function register(int $userId, int $birthdate, string $phone, string $email): Member
+    public static function register(int $userId, string $birthdate, string $phone, string $email): Member
     {
         $params = array(
             ":user_id" => $userId,
