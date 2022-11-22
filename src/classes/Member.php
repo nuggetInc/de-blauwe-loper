@@ -25,7 +25,7 @@ class Member
         return $this->userId;
     }
 
-    public function getBirthdate(): int
+    public function getBirthdate(): string
     {
         return $this->birthdate;
     }
