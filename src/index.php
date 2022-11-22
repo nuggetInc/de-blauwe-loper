@@ -6,8 +6,10 @@ session_start();
 
 
 require_once("classes/Pages.php");
-
-
+require_once("classes/Game.php");
+require_once("classes/Member.php");
+require_once("classes/Permission.php");
+require_once("classes/User.php");
 
 /** The root of the url also the path of the current folder
  * 
