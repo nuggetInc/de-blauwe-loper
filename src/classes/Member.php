@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once("classes/User.php");
+
 class Member
 {
     private function __construct(
@@ -43,7 +45,7 @@ class Member
         return User::get($this->userId);
     }
 
-    public function register(int $userId, string $birthdate, string $phone, string $email): Member
+    public static function register(int $userId, string $birthdate, string $phone, string $email): Member
     {
         $params = array(
             ":user_id" => $userId,
@@ -57,10 +59,10 @@ class Member
         return new Member((int)getPDO()->lastInsertId(), $userId, $birthdate, $phone, $email);
     }
 
-    public function get(int $id): ?Member
+    public static function get(int $id): ?Member
     {
         $params = array(":id" => $id);
-        $sth = getPDO()->prepare("SELECT `user_id`, `birthdate`, `phone`, `email` FROM `member` WHERE `id` = :id;");
+        $sth = getPDO()->prepare("SELECT `user_id`, `birthdate`, `phone`, `email` FROM `member` WHERE `id` = :id LIMIT 1;");
         $sth->execute($params);
 
         if ($row = $sth->fetch())
@@ -69,7 +71,24 @@ class Member
         return null;
     }
 
-    public function update(int $id, int $userId, string $birthdate, string $phone, string $email): Member
+    public static function getByUser(User $user): ?Member
+    {
+        return self::getByUserId($user->getId());
+    }
+
+    public static function getByUserId(int $userId): ?Member
+    {
+        $params = array(":user_id" => $userId);
+        $sth = getPDO()->prepare("SELECT `id`, `birthdate`, `phone`, `email` FROM `member` WHERE `user_id` = :user_id LIMIT 1;");
+        $sth->execute($params);
+
+        if ($row = $sth->fetch())
+            return new Member($row["id"], $userId, $row["birthdate"], $row["phone"], $row["email"]);
+
+        return null;
+    }
+
+    public static function update(int $id, int $userId, string $birthdate, string $phone, string $email): Member
     {
         $params = array(
             ":id" => $id,
@@ -84,7 +103,7 @@ class Member
         return new Member($id, $userId, $birthdate, $phone, $email);
     }
 
-    public function delete(int $id): void
+    public static function delete(int $id): void
     {
         $params = array(":id" => $id);
         $sth = getPDO()->prepare("DELETE FROM `member` WHERE `id` = :id;");

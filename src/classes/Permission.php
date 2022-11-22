@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once("classes/User.php");
+
 class Permission
 {
     private function __construct(
@@ -31,7 +33,7 @@ class Permission
         return User::get($this->userId);
     }
 
-    public function register(int $userId, PermissionType $permission): Permission
+    public static function register(int $userId, PermissionType $permission): Permission
     {
         $params = array(
             ":user_id" => $userId,
@@ -44,10 +46,10 @@ class Permission
         return new Permission((int)getPDO()->lastInsertId(), $userId, $permission);
     }
 
-    public function get(int $id): ?Permission
+    public static function get(int $id): ?Permission
     {
         $params = array(":id" => $id);
-        $sth = getPDO()->prepare("SELECT `user_id`, `permission` FROM `permission` WHERE `id` = :id;");
+        $sth = getPDO()->prepare("SELECT `user_id`, `permission` FROM `permission` WHERE `id` = :id LIMIT 1;");
         $sth->execute($params);
 
         if ($row = $sth->fetch())
@@ -56,7 +58,7 @@ class Permission
         return null;
     }
 
-    public function update(int $id, int $userId, PermissionType $permission): Permission
+    public static function update(int $id, int $userId, PermissionType $permission): Permission
     {
         $params = array(
             ":id" => $id,
@@ -69,7 +71,7 @@ class Permission
         return new Permission($id, $userId, $permission);
     }
 
-    public function delete(int $id): void
+    public static function delete(int $id): void
     {
         $params = array(":id" => $id);
         $sth = getPDO()->prepare("DELETE FROM `permission` WHERE `id` = :id;");

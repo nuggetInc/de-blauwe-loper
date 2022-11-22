@@ -27,10 +27,15 @@ class User
         return $this->passwordHash;
     }
 
+    public function getMember(): bool
+    {
+        return $this->member;
+    }
+
     public static function login(string $username, string $password): ?User
     {
         $params = array(":username" => $username);
-        $sth = getPDO()->prepare("SELECT `id`, `password_hash`, `member` FROM `user` WHERE `username` = :username;");
+        $sth = getPDO()->prepare("SELECT `id`, `password_hash`, `member` FROM `user` WHERE `username` = :username LIMIT 1;");
         $sth->execute($params);
 
         if ($row = $sth->fetch())
@@ -58,7 +63,7 @@ class User
     public static function get(int $id): ?User
     {
         $params = array(":id" => $id);
-        $sth = getPDO()->prepare("SELECT `name`, `password_hash`, `member` FROM `user` WHERE `id` = :id;");
+        $sth = getPDO()->prepare("SELECT `name`, `password_hash`, `member` FROM `user` WHERE `id` = :id LIMIT 1;");
         $sth->execute($params);
 
         if ($row = $sth->fetch())
