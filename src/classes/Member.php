@@ -83,12 +83,12 @@ class Member
         $sth->execute($params);
 
         if ($row = $sth->fetch())
-            return new Member($row["id"], $userId, strtotime($row["birthdate"]), $row["phone"], $row["email"]);
+            return new Member($row["id"], $userId, $row["birthdate"], $row["phone"], $row["email"]);
 
         return null;
     }
 
-    public static function update(int $id, int $userId, int $birthdate, string $phone, string $email): Member
+    public static function update(int $id, int $userId, string $birthdate, string $phone, string $email): Member
     {
         $params = array(
             ":id" => $id,
