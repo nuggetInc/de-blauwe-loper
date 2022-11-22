@@ -9,7 +9,7 @@ class Member
     private function __construct(
         private int $id,
         private int $userId,
-        private string $birthdate,
+        private int $birthdate,
         private string $phone,
         private string $email,
     ) {
@@ -25,7 +25,7 @@ class Member
         return $this->userId;
     }
 
-    public function getBirthdate(): string
+    public function getBirthdate(): int
     {
         return $this->birthdate;
     }
@@ -45,7 +45,7 @@ class Member
         return User::get($this->userId);
     }
 
-    public static function register(int $userId, string $birthdate, string $phone, string $email): Member
+    public static function register(int $userId, int $birthdate, string $phone, string $email): Member
     {
         $params = array(
             ":user_id" => $userId,
@@ -83,12 +83,12 @@ class Member
         $sth->execute($params);
 
         if ($row = $sth->fetch())
-            return new Member($row["id"], $userId, $row["birthdate"], $row["phone"], $row["email"]);
+            return new Member($row["id"], $userId, strtotime($row["birthdate"]), $row["phone"], $row["email"]);
 
         return null;
     }
 
-    public static function update(int $id, int $userId, string $birthdate, string $phone, string $email): Member
+    public static function update(int $id, int $userId, int $birthdate, string $phone, string $email): Member
     {
         $params = array(
             ":id" => $id,
