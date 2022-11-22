@@ -3,7 +3,7 @@ $folder = "member";
 
 if(isset($_SESSION["user"]))
 {
-    
+    $folder = $_SESSION["user"]->getMember() == 0 ? "employee" : "member";
 }
 
 ?>
@@ -35,17 +35,22 @@ if(isset($_SESSION["user"]))
                 <?php if(isset($_SESSION["user"])) : ?>
                     <a class="text-decoration-none" href="<?= ROOT . "/member/account/uitloggen" ?>">
                         <div class="bg-secondary rounded m-1" style="padding: 10px">
-                            <li class="text-light">Uitloggen</li>
+                            <li class="text-dark">Uitloggen</li>
                         </div>
                     </a>
                 <?php else : ?>
+                    <?php $onPage = (ROUTE == "/member/account/login-registreer"); ?>
                     <a class="text-decoration-none" href="<?= ROOT . "/member/account/login-registreer" ?>">
-                        <div class="bg-secondary rounded m-1" style="padding: 10px">
-                            <li class="text-dark">Login/Registeer</li>
+                        <div class="bg-<?= $onPage ? "dark" : "secondary" ?> rounded m-1" style="padding: 10px">
+                            <li class="text-<?= $onPage ? "light" : "dark" ?>">
+                                Login/Registeer
+                            </li>
                         </div>
                     </a>
                 <?php endif ?>
+
             </ul>
         </div>
     </div>
 </nav>
+
