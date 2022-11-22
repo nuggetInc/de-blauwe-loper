@@ -57,8 +57,6 @@ function getPDO(): PDO
         ? ROUTE
         : header("Location: " . ROOT . "/member/start");
 
-    User::register("Dustin van de Veerdonk", "qwerty", false);
-
     require_once("required/header.php");
     require_once("pages".$finalRoute.".php");
     ?>
