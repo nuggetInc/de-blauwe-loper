@@ -39,6 +39,7 @@ function getPDO(): PDO
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="./public/img/Logo.png">
 
     <link rel="stylesheet" href="<?= ROOT ?>/style.css">
     <title>De Blauwe Loper</title>
@@ -49,7 +50,9 @@ function getPDO(): PDO
 
     /** `ROUTE` split on '/' */
     $route = explode("/", trim(ROUTE, "/"));
+    $route = (!empty($route[0])) ? $route[0] : "Start";
     require_once("requierd/header.php");
+    require_once("pages/$route.php");
     ?>
 </body>
 
