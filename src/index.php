@@ -61,8 +61,6 @@ function getPDO(): PDO
 
     require_once("required/header.php");
     require_once("pages".$finalRoute.".php");
-
-    echo ROUTE;
     ?>
 </body>
 
