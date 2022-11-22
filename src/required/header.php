@@ -32,6 +32,19 @@ if(isset($_SESSION["user"]))
                         </a>
                     <?php endif ?>
                 <?php endforeach; ?>
+                <?php if(isset($_SESSION["user"])) : ?>
+                    <a class="text-decoration-none" href="<?= ROOT . "/member/account/uitloggen" ?>">
+                        <div class="bg-secondary rounded m-1" style="padding: 10px">
+                            <li class="text-light">Uitloggen</li>
+                        </div>
+                    </a>
+                <?php else : ?>
+                    <a class="text-decoration-none" href="<?= ROOT . "/member/account/login-registreer" ?>">
+                        <div class="bg-secondary rounded m-1" style="padding: 10px">
+                            <li class="text-dark">Login/Registeer</li>
+                        </div>
+                    </a>
+                <?php endif ?>
             </ul>
         </div>
     </div>

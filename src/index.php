@@ -49,15 +49,18 @@ function getPDO(): PDO
 
 <body>
     <?php
-
+    
     /** `ROUTE` split on '/' */
     $route = explode("/", trim(ROUTE, "/"));
-    $finalRoute = (!empty($route[0]))
-        ? $route[0] . "/" . $route[1]
+
+    $finalRoute = (ROUTE !== "/")
+        ? ROUTE
         : header("Location: " . ROOT . "/member/start");
 
+    User::register("Dustin van de Veerdonk", "qwerty", false);
+
     require_once("required/header.php");
-    require_once("pages/$finalRoute.php");
+    require_once("pages".$finalRoute.".php");
     ?>
 </body>
 
