@@ -50,7 +50,7 @@ function getPDO(): PDO
 
     /** `ROUTE` split on '/' */
     $route = explode("/", trim(ROUTE, "/"));
-    $route = (!empty($route[0])) ? $route[0] : "Start";
+    $route = (!empty($route[0])) ? $route[0] : "start";
     require_once("requierd/header.php");
     require_once("pages/$route.php");
     ?>
