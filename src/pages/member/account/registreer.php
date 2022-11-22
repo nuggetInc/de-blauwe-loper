@@ -14,11 +14,13 @@
 </form>
 
 <?php
-if(isset($_POST)){
+if(!empty($_POST)){
     if($_POST['password'] == $_POST['passwordRepeat']){
-        User::register($_POST['name'], $_POST['password'], 1);
+        $user = User::register($_POST['name'], $_POST['password'], 1);
+
+        Member::register($user->getId(), );
         echo "Uw account is succesvol aangemaakt";
-        header("Location".ROOT);
+        header("Location: ".ROOT);
     }
 }
 unset($_POST);
