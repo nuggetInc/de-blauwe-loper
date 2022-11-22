@@ -47,12 +47,15 @@ function getPDO(): PDO
 
 <body>
     <?php
-
+   
     /** `ROUTE` split on '/' */
     $route = explode("/", trim(ROUTE, "/"));
-    $route = (!empty($route[0])) ? $route[0] : "Start";
+    $finalRoute = (!empty($route[0])) 
+    ? $route[0] . "/" . $route[1] 
+    : header("Location: ". ROOT . "/member/start");
+
     require_once("required/header.php");
-    require_once("pages/$route.php");
+    require_once("pages/$finalRoute.php");
     ?>
 </body>
 
