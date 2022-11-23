@@ -6,6 +6,13 @@ require_once("classes/User.php");
 
 class Member
 {
+    /**
+     * @param int $id The UID of the member. Automatically increments.
+     * @param int $userId The UID of the user this member is associated with.
+     * @param string $birthdate The birthdate of the user. Format is in `YYYY-MM-DD`.
+     * @param string $phone The phonenumber of the user. Can contain spaces.
+     * @param string $email The email of the user.
+     */
     private function __construct(
         private int $id,
         private int $userId,
@@ -40,11 +47,19 @@ class Member
         return $this->email;
     }
 
+    /** Gets the associated user */
     public function getUser(): User
     {
         return User::get($this->userId);
     }
 
+    /** Registers a new member.
+     * @param int $userId The UID of the user this member is associated with.
+     * @param string $birthdate The birthdate of the user. Format is in `YYYY-MM-DD`.
+     * @param string $phone The phonenumber of the user. Can contain spaces.
+     * @param string $email The email of the user.
+     * @return Member The member that was registered.
+     */
     public static function register(int $userId, string $birthdate, string $phone, string $email): Member
     {
         $params = array(
@@ -59,6 +74,10 @@ class Member
         return new Member((int)getPDO()->lastInsertId(), $userId, $birthdate, $phone, $email);
     }
 
+    /** Gets a member by UID.
+     * @param int $id The UID of the member to get.
+     * @return ?User The member, `null` if the UID doesn't exist.
+     */
     public static function get(int $id): ?Member
     {
         $params = array(":id" => $id);
@@ -71,11 +90,19 @@ class Member
         return null;
     }
 
+    /** Gets member by associated user's UID
+     * @param User $user The associated user.
+     * @return ?Member The member, `null` if the associated user doesn't exist or doesn't have a member associated with it.
+     */
     public static function getByUser(User $user): ?Member
     {
         return self::getByUserId($user->getId());
     }
 
+    /** Gets member by associated user's UID
+     * @param int $userId The UID of the associated user.
+     * @return ?Member The member, `null` if the associated user doesn't exist or doesn't have a member associated with it.
+     */
     public static function getByUserId(int $userId): ?Member
     {
         $params = array(":user_id" => $userId);
@@ -88,6 +115,14 @@ class Member
         return null;
     }
 
+    /** Updates the member by UID.
+     * @param int $id The UID of the member to update.
+     * @param int $userId The UID of the user this member is associated with.
+     * @param string $birthdate The birthdate of the user. Format is in `YYYY-MM-DD`.
+     * @param string $phone The phonenumber of the user. Can contain spaces.
+     * @param string $email The email of the user.
+     * @return Member The member with updated data.
+     */
     public static function update(int $id, int $userId, string $birthdate, string $phone, string $email): Member
     {
         $params = array(
@@ -103,6 +138,9 @@ class Member
         return new Member($id, $userId, $birthdate, $phone, $email);
     }
 
+    /** Deletes the member by UID.
+     * @param int $id The UID of the member to delete.
+     */
     public static function delete(int $id): void
     {
         $params = array(":id" => $id);

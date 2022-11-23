@@ -41,7 +41,7 @@ function getPDO(): PDO
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="<?=ROOT?>/img/Logo.png">
+    <link rel="icon" href="<?= ROOT ?>/img/Logo.png">
 
     <link rel="stylesheet" href="<?= ROOT ?>/style.css">
     <title>De Blauwe Loper</title>
@@ -49,16 +49,16 @@ function getPDO(): PDO
 
 <body>
     <?php
-    /** `ROUTE` split on '/' */
-    $route = explode("/", trim(ROUTE, "/"));
 
-    
+    // Redirect to members start if on root page
+    if (ROUTE === "/") {
+        header("Location: " . ROOT . "/member/start");
+        exit;
+    }
 
-    $finalRoute = (ROUTE !== "/")
-        ? ROUTE
-        : header("Location: " . ROOT . "/member/start");
     require_once("required/header.php");
-    require_once("pages".$finalRoute.".php");
+    require_once("pages" . ROUTE . ".php");
+
     ?>
 </body>
 

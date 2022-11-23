@@ -2,13 +2,23 @@
 
 declare(strict_types=1);
 
+require_once("classes/User.php");
+
 class Game
 {
+    /**
+     * @param int $id The UID of the game. Automatically increments.
+     * @param ?int $whiteUserId The UID of the user that played white. Null if user doesn't exist
+     * @param ?int $blackUserId The UID of the user that played black. Null if user doesn't exist
+     * @param ?int $winnerUserId The UID of the user that won the game. Null if user doesn't exist, 0 if draw.
+     * @param string $startTime The time that the game started.
+     * @param string $endTime The time that the game ended.
+     */
     private function __construct(
         private int $id,
-        private int $whiteUserId,
-        private int $blackUserId,
-        private int $winnerUserId,
+        private ?int $whiteUserId,
+        private ?int $blackUserId,
+        private ?int $winnerUserId,
         private string $startTime,
         private string $endTime,
     ) {
@@ -19,17 +29,17 @@ class Game
         return $this->id;
     }
 
-    public function getWhiteUserId(): int
+    public function getWhiteUserId(): ?int
     {
         return $this->whiteUserId;
     }
 
-    public function getBlackUserId(): int
+    public function getBlackUserId(): ?int
     {
         return $this->blackUserId;
     }
 
-    public function getWinnerUserId(): int
+    public function getWinnerUserId(): ?int
     {
         return $this->winnerUserId;
     }
@@ -44,7 +54,42 @@ class Game
         return $this->endTime;
     }
 
-    public static function register(int $whiteUserId, int $blackUserId, int $winnerUserId, string $startTime, string $endTime): Game
+    /** Gets the user that played white
+     * @return ?User The user that played white. Null if user doesn't exist.
+     */
+    public function getGetWhiteUser(): ?User
+    {
+        if ($this->whiteUserId === null) return null;
+        return User::get($this->whiteUserId);
+    }
+
+    /** Gets the user that played black
+     * @return ?User The user that played black. Null if user doesn't exist.
+     */
+    public function getGetBlackUser(): ?User
+    {
+        if ($this->blackUserId === null) return null;
+        return User::get($this->blackUserId);
+    }
+
+    /** Gets the user that won
+     * @return ?User The user that won. Null if user doesn't exist or the game was a draw.
+     */
+    public function getGetWinnerUser(): ?User
+    {
+        if ($this->winnerUserId === null) return null;
+        return User::get($this->winnerUserId);
+    }
+
+    /** Registers a new game.
+     * @param ?int $whiteUserId The UID of the user that played white.
+     * @param ?int $blackUserId The UID of the user that played black.
+     * @param ?int $winnerUserId The UID of the user that won the game.
+     * @param string $startTime The time that the game started.
+     * @param string $endTime The time that the game ended.
+     * @return User The game that was registered.
+     */
+    public static function register(?int $whiteUserId, ?int $blackUserId, ?int $winnerUserId, string $startTime, string $endTime): Game
     {
         $params = array(
             ":white_user_id" => $whiteUserId,
@@ -60,6 +105,10 @@ class Game
         return new Game((int)getPDO()->lastInsertId(), $whiteUserId, $blackUserId, $winnerUserId, $startTime, $endTime);
     }
 
+    /** Gets a game by UID.
+     * @param int $id The UID of the game to get.
+     * @return ?User The game, `null` if the UID doesn't exist.
+     */
     public static function get(int $id): ?Game
     {
         $params = array(":id" => $id);
@@ -72,7 +121,16 @@ class Game
         return null;
     }
 
-    public static function update(int $id, int $whiteUserId, int $blackUserId, int $winnerUserId, string $startTime, string $endTime): Game
+    /** Updates the game by UID.
+     * @param int $id The UID of the game to update.
+     * @param ?int $whiteUserId The UID of the user that played white.
+     * @param ?int $blackUserId The UID of the user that played black.
+     * @param ?int $winnerUserId The UID of the user that won the game.
+     * @param string $startTime The time that the game started.
+     * @param string $endTime The time that the game ended.
+     * @return Game The game with updated information.
+     */
+    public static function update(int $id, ?int $whiteUserId, ?int $blackUserId, ?int $winnerUserId, string $startTime, string $endTime): Game
     {
         $params = array(
             ":id" => $id,
@@ -88,6 +146,9 @@ class Game
         return new Game($id, $whiteUserId, $blackUserId, $winnerUserId, $startTime, $endTime);
     }
 
+    /** Deletes the game and associated member by UID.
+     * @param int $id The UID of the game to delete.
+     */
     public static function delete(int $id): void
     {
         $params = array(":id" => $id);
