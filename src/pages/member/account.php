@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-// Temparay until login works
-$_SESSION["user"] = User::get(1);
+if (!isset($_SESSION["user"])) {
+    header("Location: " . ROOT . "/member/account/login-registreer");
+    exit;
+}
 
 $user = $_SESSION["user"];
 $member = Member::getByUser($user);
