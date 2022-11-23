@@ -94,6 +94,24 @@ class User
 
         return null;
     }
+    public static function getAllMembers() : array
+    {
+        $sth = getPDO()->prepare("SELECT user.name, member.birthdate, member.phone, member.email, user.id 
+        FROM `user` LEFT JOIN `member` ON member.user_id = user.id WHERE user.member != 0");
+        $sth->execute();
+        return $sth->fetchAll();
+    }
+    public static function getMemberById($id) : ?User
+    {
+        $params = array(":id" => $id);
+        $sth = getPDO()->prepare("SELECT User.name, User.password_hash, User.member, member.birthdate, member.phone, member.email
+        FROM `user` LEFT JOIN `member` ON member.user_id = user.id WHERE user.member != 0 AND user.id = :id");
+        $sth->execute($params);
+
+        if ($row = $sth->fetch())
+            return new User($id, $row["name"], $row["password_hash"], $row["member"] != 0);
+        return null;
+    }
 
     /** Updates the user's information by UID.
      * @param int $id The UID of the user to update.
