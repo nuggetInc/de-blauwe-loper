@@ -97,7 +97,7 @@ class Member
             ":phone" => $phone,
             ":email" => $email,
         );
-        $sth = getPDO()->prepare("UPDATE `user` SET `name` = :name, `password_hash` = :password_hash WHERE `id` = :id;");
+        $sth = getPDO()->prepare("UPDATE `member` SET `user_id` = :user_id, `birthdate` = :birthdate, `phone` = :phone, `email` = :email WHERE `id` = :id;");
         $sth->execute($params);
 
         return new Member($id, $userId, $birthdate, $phone, $email);

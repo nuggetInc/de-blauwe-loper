@@ -9,8 +9,8 @@ class Game
         private int $whiteUserId,
         private int $blackUserId,
         private int $winnerUserId,
-        private int $startTime,
-        private int $endTime,
+        private string $startTime,
+        private string $endTime,
     ) {
     }
 
@@ -34,24 +34,24 @@ class Game
         return $this->winnerUserId;
     }
 
-    public function getStartTime(): int
+    public function getStartTime(): string
     {
         return $this->startTime;
     }
 
-    public function getEndTime(): int
+    public function getEndTime(): string
     {
         return $this->endTime;
     }
 
-    public static function register(int $whiteUserId, int $blackUserId, int $winnerUserId, int $startTime, int $endTime): Game
+    public static function register(int $whiteUserId, int $blackUserId, int $winnerUserId, string $startTime, string $endTime): Game
     {
         $params = array(
             ":white_user_id" => $whiteUserId,
             ":black_user_id" => $blackUserId,
             ":winner_user_id" => $winnerUserId,
-            ":start_time" => date("Y-m-d", $startTime),
-            ":end_time" => date("Y-m-d", $endTime),
+            ":start_time" => $startTime,
+            ":end_time" => $endTime,
         );
 
         $sth = getPDO()->prepare("INSERT INTO `game` (`white_user_id`, `black_user_id`, `winner_user_id`, `start_time`, `end_time`) VALUES (:white_user_id ,:black_user_id ,:winner_user_id ,:start_time ,:end_time);");
@@ -67,20 +67,20 @@ class Game
         $sth->execute($params);
 
         if ($row = $sth->fetch())
-            return new Permission($id, $row["white_user_id"], $row["black_user_id"], $row["winner_user_id"], strtotime($row["start_time"]), strtotime($row["end_time"]));
+            return new Permission($id, $row["white_user_id"], $row["black_user_id"], $row["winner_user_id"], $row["start_time"], $row["end_time"]);
 
         return null;
     }
 
-    public static function update(int $id, int $whiteUserId, int $blackUserId, int $winnerUserId, int $startTime, int $endTime): Game
+    public static function update(int $id, int $whiteUserId, int $blackUserId, int $winnerUserId, string $startTime, string $endTime): Game
     {
         $params = array(
             ":id" => $id,
             ":white_user_id" => $whiteUserId,
             ":black_user_id" => $blackUserId,
             ":winner_user_id" => $winnerUserId,
-            ":start_time" => date("Y-m-d", $startTime),
-            ":end_time" => date("Y-m-d", $endTime),
+            ":start_time" => $startTime,
+            ":end_time" => $endTime,
         );
         $sth = getPDO()->prepare("UPDATE `game` SET `white_user_id` = :whiteUserId, `black_user_id` = :blackUserId, `winner_user_id` = :winnerUserId, `start_time` = :startTime, `end_time` = :endTime WHERE `id` = :id;");
         $sth->execute($params);

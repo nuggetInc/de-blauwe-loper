@@ -90,20 +90,31 @@ class User
         return null;
     }
 
-    public static function update(int $id, string $username, string $password, $member): User
+    public static function update(int $id, string $name, bool $member): User
+    {
+        $params = array(
+            ":id" => $id,
+            ":name" => $name,
+            ":member" => ($member ? 1 : 0)
+        );
+        $sth = getPDO()->prepare("UPDATE `user` SET `name` = :name, `member` = :member WHERE `id` = :id;");
+        $sth->execute($params);
+
+        return Self::get($id);
+    }
+
+    public static function updatePassword(int $id, string $password): User
     {
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
         $params = array(
             ":id" => $id,
-            ":username" => $username,
             ":password_hash" => $passwordHash,
-            ":member" => $member ? 1 : 0
         );
-        $sth = getPDO()->prepare("UPDATE `user` SET `name` = :name, `password_hash` = :password_hash WHERE `id` = :id;");
+        $sth = getPDO()->prepare("UPDATE `user` SET `password_hash` = :password_hash WHERE `id` = :id;");
         $sth->execute($params);
 
-        return new User($id, $username, $password, $member);
+        return Self::get($id);
     }
 
     public static function delete(int $id): void
