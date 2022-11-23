@@ -2,27 +2,105 @@
 
 declare(strict_types=1);
 
-$user = User::get(1);
+if (!isset($_SESSION["user"])) {
+    header("Location: " . ROOT . "/member/account/login-registreer");
+    exit;
+}
+
+$user = $_SESSION["user"];
 $member = Member::getByUser($user);
 
-$_SESSION["name-placeholder"] = $_SESSION["name"] = $user->getName();
-$_SESSION["birthdate"] = $member->getBirthdate();
-$_SESSION["phone-placeholder"] = $_SESSION["phone"] = $member->getPhone();
-$_SESSION["email-placeholder"] = $_SESSION["email"] = $member->getEmail();
+// If the edit information form was submitted.
+if (isset($_POST["edit-account"], $_POST["name"], $_POST["birthdate"], $_POST["phone"], $_POST["email"])) {
+    // Check if name only contains letters, spaces and "!"'s.
+    if (!preg_match("/^[a-zA-Z! ]+$/", $_POST["name"]))
+        $_SESSION["name-error"] = "Naam mag alleen letters en spaties bevatten";
 
+    // Check if birthdate is before today.
+    if (strtotime($_POST["birthdate"]) > time())
+        $_SESSION["birthdate-error"] = "Geboortedatum moet voor vandaag zijn";
 
+    // Check if phone only contains numbers and an optional + at the start.
+    if (!preg_match("/^\+?[0-9 ]+$/", $_POST["phone"]))
+        $_SESSION["phone-error"] = "Telefoonnummer is incorrect";
 
+    // Check if email only contains letters, numbers and "."'s before and after "@".
+    if (!preg_match("/^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$/", $_POST["email"]))
+        $_SESSION["email-error"] = "Email is incorrect";
 
+    // Save data en reload if any errors are set.
+    if (isset($_SESSION["name-error"]) || isset($_SESSION["birthdate-error"]) || isset($_SESSION["phone-error"]) || isset($_SESSION["email-error"])) {
+        $_SESSION["name"] = $_POST["name"];
+        $_SESSION["birthdate"] = $_POST["birthdate"];
+        $_SESSION["phone"] = $_POST["phone"];
+        $_SESSION["email"] = $_POST["email"];
 
+        header("Location: " . PATH);
+        exit;
+    }
 
+    // Update database when all checks pass.
+    User::update($user->getId(), $_POST["name"], $user->getMember());
+    Member::update($member->getId(), $user->getId(), $_POST["birthdate"], $_POST["phone"], $_POST["email"]);
 
+    // Reload the page to clear POST.
+    header("Location: " . PATH);
+    exit;
+}
+
+// If the edit password form was submitted.
+if (isset($_POST["edit-password"], $_POST["password"], $_POST["re-password"])) {
+    // Check if passwords match
+    if ($_POST["password"] !== $_POST["re-password"])
+        $_SESSION["re-password-error"] = "Wachtwoorden komen niet overheen";
+
+    // Check if password contains at least 4 characters
+    if (strlen($_POST["password"]) < 4)
+        $_SESSION["password-error"] = "Wachtwoord moet minstens vier characters bevatten";
+
+    // Save data en reload if any errors are set.
+    if (isset($_SESSION["password-error"]) || isset($_SESSION["re-password-error"])) {
+        header("Location: " . PATH);
+        exit;
+    }
+
+    // Update database when all checks pass.
+    User::updatePassword($user->getId(), $_POST["password"]);
+
+    // Reload the page to clear POST.
+    header("Location: " . PATH);
+    exit;
+}
+
+// If the delete account form was submitted.
+if (isset($_POST["delete-account"])) {
+    // Delete user and associated data
+    User::delete($user->getId());
+
+    // Reload the page to clear POST.
+    header("Location: " . PATH);
+    exit;
+}
+
+// Set form values to the database value if they aren't set by a previous submit.
+$_SESSION["name"] = $_SESSION["name"] ?? $user->getName();
+$_SESSION["birthdate"] = $_SESSION["birthdate"] ?? $member->getBirthdate();
+$_SESSION["phone"] = $_SESSION["phone"] ?? $member->getPhone();
+$_SESSION["email"] = $_SESSION["email"] ?? $member->getEmail();
+
+// Set form placeholders to the database value.
+$_SESSION["name-placeholder"] = $user->getName();
+$_SESSION["phone-placeholder"] = $member->getPhone();
+$_SESSION["email-placeholder"] = $member->getEmail();
 
 ?>
 <section class="container mt-5">
     <div class="row justify-content-between gy-4">
-        <form class="col-lg-5">
+        <!-- Edit account information form -->
+        <form class="col-lg-5" method="POST">
             <h1 class="mb-3">Account wijzigen</h1>
 
+            <!-- Name input -->
             <div class="mb-3">
                 <label name="name" class="form-label" for="inputName">Naam</label>
                 <?php if (isset($_SESSION["name-error"])) : ?>
@@ -33,16 +111,18 @@ $_SESSION["email-placeholder"] = $_SESSION["email"] = $member->getEmail();
                 <?php endif ?>
             </div>
 
+            <!-- Birthdate input -->
             <div class="mb-3">
                 <label name="birthdate" class="form-label" for="inputBirthdate">Geboortedatum</label>
                 <?php if (isset($_SESSION["birthdate-error"])) : ?>
-                    <input type="date" name="birtdate" class="form-control is-invalid" id="inputBirthdate" value="<?= date("Y-m-d", $_SESSION["birthdate"]) ?>" required />
+                    <input type="date" name="birthdate" class="form-control is-invalid" id="inputBirthdate" value="<?= $_SESSION["birthdate"] ?>" required />
                     <div class="invalid-feedback"><?= $_SESSION["birthdate-error"] ?></div>
                 <?php else : ?>
-                    <input type="date" name="birtdate" class="form-control" id="inputBirthdate" value="<?= date("Y-m-d", $_SESSION["birthdate"]) ?>" required />
+                    <input type="date" name="birthdate" class="form-control" id="inputBirthdate" value="<?= $_SESSION["birthdate"] ?>" required />
                 <?php endif ?>
             </div>
 
+            <!-- Phonenumber input -->
             <div class="mb-3">
                 <label name="phone" class="form-label" for="inputPhone">Telefoonnummer</label>
                 <?php if (isset($_SESSION["phone-error"])) : ?>
@@ -53,6 +133,7 @@ $_SESSION["email-placeholder"] = $_SESSION["email"] = $member->getEmail();
                 <?php endif ?>
             </div>
 
+            <!-- Email input -->
             <div class="mb-3">
                 <label name="email" class="form-label" for="inputEmail">Email</label>
                 <?php if (isset($_SESSION["email-error"])) : ?>
@@ -63,12 +144,14 @@ $_SESSION["email-placeholder"] = $_SESSION["email"] = $member->getEmail();
                 <?php endif ?>
             </div>
 
-            <button type="submit" name="account" class="btn btn-primary">Wijzigen</button>
+            <button type="submit" name="edit-account" class="btn btn-primary">Wijzigen</button>
         </form>
         <div class="d-flex flex-column col-lg-5">
-            <form>
+            <!-- Edit account password form -->
+            <form method="POST">
                 <h1 class=" mb-3">Wachtwoord wijzigen</h1>
 
+                <!-- Password input -->
                 <div class="mb-3">
                     <label name="password" class="form-label" for="inputPassword">Wachtwoord</label>
                     <?php if (isset($_SESSION["password-error"])) : ?>
@@ -79,6 +162,7 @@ $_SESSION["email-placeholder"] = $_SESSION["email"] = $member->getEmail();
                     <?php endif ?>
                 </div>
 
+                <!-- Repeat password input -->
                 <div class="mb-3">
                     <label name="re-password" class="form-label" for="inputRePassword">Email</label>
                     <?php if (isset($_SESSION["re-password-error"])) : ?>
@@ -89,12 +173,35 @@ $_SESSION["email-placeholder"] = $_SESSION["email"] = $member->getEmail();
                     <?php endif ?>
                 </div>
 
-                <button type="submit" name="password" class="btn btn-primary">Wijzigen</button>
+                <button type="submit" name="edit-password" class="btn btn-primary">Wijzigen</button>
             </form>
-            <form class="mt-4">
+            <!-- Delete account form -->
+            <form class="mt-4" method="POST">
                 <h1>Account Verwijderen</h1>
-                <button type="submit" name="delete" class="btn btn-primary">Verwijderen</button>
+                <button type="submit" name="delete-account" class="btn btn-primary">Verwijderen</button>
             </form>
         </div>
     </div>
 </section>
+<?php
+
+// Clear all the sessions that where set.
+// This is needed because errors can appear on other pages otherwise.
+
+unset($_SESSION["name"]);
+unset($_SESSION["birthdate"]);
+unset($_SESSION["phone"]);
+unset($_SESSION["email"]);
+
+unset($_SESSION["name-placeholder"]);
+unset($_SESSION["phone-placeholder"]);
+unset($_SESSION["email-placeholder"]);
+
+unset($_SESSION["name-error"]);
+unset($_SESSION["birthdate-error"]);
+unset($_SESSION["phone-error"]);
+unset($_SESSION["email-error"]);
+unset($_SESSION["password-error"]);
+unset($_SESSION["re-password-error"]);
+
+?>
