@@ -52,7 +52,6 @@ function getPDO(): PDO
     /** `ROUTE` split on '/' */
     $route = explode("/", trim(ROUTE, "/"));
 
-    
 
     $finalRoute = (ROUTE !== "/")
         ? ROUTE
