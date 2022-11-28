@@ -94,6 +94,19 @@ class User
 
         return null;
     }
+
+    public static function check(string $name): ?User
+    {
+        $params = array(":name" => $name);
+        $sth = getPDO()->prepare("SELECT `id`, `name`, `password_hash`, `member` FROM `user` WHERE `name` = :name LIMIT 1;");
+        $sth->execute($params);
+
+        if ($row = $sth->fetch()){
+            return new User($row["id"], $name, $row["password_hash"], $row["member"] != 0);
+        }else{
+            return null;
+        }
+    }
     public static function getAllMembers() : array
     {
         $sth = getPDO()->prepare("SELECT user.name, member.birthdate, member.phone, member.email, user.id 

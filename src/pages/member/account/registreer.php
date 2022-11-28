@@ -36,10 +36,12 @@
 <?php
 if(!empty($_POST)){
     if($_POST['password'] == $_POST['passwordRepeat']){
-        $user = User::register($_POST['name'], $_POST['password'], 1);
-
-        Member::register($user->getId(), $_POST['date'], $_POST['phoneNumber'], $_POST['mail']);
-        header("Location: ".ROOT);
+        $pUser = User::check($_POST['name']);
+        if($pUser == null){
+            $user = User::register($_POST['name'], $_POST['password'], 1);
+            Member::register($user->getId(), $_POST['date'], $_POST['phoneNumber'], $_POST['mail']);
+            header('Location:'.ROOT );
+        }
     }
 }
 unset($_POST);
