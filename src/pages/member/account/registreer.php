@@ -40,9 +40,9 @@ if(!empty($_POST)){
         if($pUser == null){
             $user = User::register($_POST['name'], $_POST['password'], 1);
             Member::register($user->getId(), $_POST['date'], $_POST['phoneNumber'], $_POST['mail']);
-            header('Location:'.ROOT );
         }
     }
+    header('Location:'.ROOT );
 }
 unset($_POST);
 
