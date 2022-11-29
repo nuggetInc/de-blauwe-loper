@@ -156,14 +156,12 @@ class User
 
         $params = array(
             ":id" => $id,
-            ":username" => $username,
             ":password_hash" => $passwordHash,
-            ":member" => $member ? 1 : 0
         );
-        $sth = getPDO()->prepare("UPDATE `user` SET `name` = :username, `password_hash` = :password_hash, member = :member WHERE `id` = :id;");
+        $sth = getPDO()->prepare("UPDATE `user` SET `password_hash` = :password_hash WHERE `id` = :id;");
         $sth->execute($params);
 
-        return new User($id, $username, $password, $member);
+        return Self::get($id);
     }
 
     /** Deletes the user and associated data by UID.
