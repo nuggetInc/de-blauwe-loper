@@ -138,13 +138,25 @@ class Member
         return new Member($id, $userId, $birthdate, $phone, $email);
     }
 
-    /** Deletes the member by UID.
-     * @param int $id The UID of the member to delete.
-     */
-    public static function delete(int $id): void
+    public function delete(): void
     {
-        $params = array(":id" => $id);
+        $params = array(":user_id" => $this->userId);
+        $sth = getPDO()->prepare("UPDATE `game` 
+        SET `game`.white_user_id = 0 WHERE `game`.white_user_id = :user_id;
+        UPDATE `game`
+        SET `game`.black_user_id = 0 WHERE `game`.black_user_id = :user_id;
+        UPDATE `game`
+        SET `game`.winner_user_id = 0 WHERE `game`.winner_user_id = :user_id;");
+        $sth->execute($params);
+
+
+        $params = array(":id" => $this->id);
         $sth = getPDO()->prepare("DELETE FROM `member` WHERE `id` = :id;");
         $sth->execute($params);
+
+        $params = array(":user_id" => $this->userId);
+        $sth = getPDO()->prepare("DELETE FROM `user` WHERE `id` = :user_id;");
+        $sth->execute($params);
+
     }
 }

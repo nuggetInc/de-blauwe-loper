@@ -109,8 +109,8 @@ class User
     }
     public static function getAllMembers(): array
     {
-        $sth = getPDO()->prepare("SELECT user.name, member.birthdate, member.phone, member.email, user.id 
-        FROM `user` LEFT JOIN `member` ON member.user_id = user.id WHERE user.member != 0");
+        $sth = getPDO()->prepare("SELECT user.name, DATE_FORMAT(member.birthdate,'%d/%m/%Y') AS birthdate, member.phone, member.email, user.id 
+        FROM `user` LEFT JOIN `member` ON member.user_id = user.id WHERE user.member != 0 AND user.id != 0");
         $sth->execute();
         return $sth->fetchAll();
     }
@@ -156,12 +156,14 @@ class User
 
         $params = array(
             ":id" => $id,
+            ":username" => $username,
             ":password_hash" => $passwordHash,
+            ":member" => $member ? 1 : 0
         );
-        $sth = getPDO()->prepare("UPDATE `user` SET `password_hash` = :password_hash WHERE `id` = :id;");
+        $sth = getPDO()->prepare("UPDATE `user` SET `name` = :username, `password_hash` = :password_hash, member = :member WHERE `id` = :id;");
         $sth->execute($params);
 
-        return Self::get($id);
+        return new User($id, $username, $password, $member);
     }
 
     /** Deletes the user and associated data by UID.

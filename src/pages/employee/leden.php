@@ -1,11 +1,22 @@
+
+
+
 <section>
     <div class="container mt-5">
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-lg btn-light text-dark border border-dark mb-2" data-bs-toggle="modal" data-bs-target="#addModal">
-                <?php require("../public/icon/addMember.html"); ?>
-            </button>
+        <h3>Klant zoeken</h3>
+        <div style="width: 30%">
+            <div class="input-group mb-5">
+                <input type="text" class="form-control" id="customerInput" onkeyup="myFunction()" placeholder="Klant zoeken">
+            </div>
         </div>
-        <table class="table table-borderd fs-5">
+        <div class="d-flex justify-content-end">
+            <a href="<?=ROOT . ROUTE?>/add">
+                <button type="button" class="btn btn-lg btn-light text-success border border-dark mb-2">
+                    <?php require("../public/icon/addMember.html"); ?>
+                </button>
+            </a>
+        </div>
+        <table class="table table-borderd fs-5" id="customerTable">
             <thead>
                 <tr>
                     <th scope="col" class="border border-dark">Naam</th>
@@ -23,13 +34,13 @@
                         <?php endfor ?>
                         <td class="border border-dark pt-2">
                             <div class="d-flex justify-content-center text-dark pt-1">
-                            <a href="?edit=<?=$member["id"]?>">
-                                <button type="button" class="btn btn-lg btn-light text-dark">
+                            <a href="<?=ROOT . ROUTE?>/edit?id=<?=$member["id"]?>">
+                                <button type="button" class="btn btn-lg btn-light text-info">
                                     <?php require("../public/icon/editMember.html"); ?>
                                 </button>
                             </a>
-                            <a href="?delete=<?=$member["id"]?>">
-                                <button type="button" class="btn btn-lg btn-light text-dark">
+                            <a href="<?=ROOT . ROUTE?>/delete?id=<?=$member["id"]?>">
+                                <button type="button" class="btn btn-lg btn-light text-danger">
                                     <?php require("../public/icon/deleteMember.html"); ?>
                                 </button>
                                 </div>
@@ -42,43 +53,33 @@
     </div>
 </section>
 
-<!-- addModal -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
-    <?php require("ledenModals/addModal.php") ?>
-</div>
-
-<!-- editModal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-    <?php require("ledenModals/editModal.php") ?>
-</div>
-
-<!-- deleteModal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-    <?php require("ledenModals/deleteModal.php") ?>
-</div>
-
 <script>
-    // const getDelete = new ;
-    // const getEdit = new ;
-    if(new URLSearchParams(window.location.search).get('delete') != null)
-    {
-        console.log("delete");
-        showModal('deleteModal');
-    }
-    if(new URLSearchParams(window.location.search).get('edit') != null)
-    {
-        console.log("edit");
-        showModal('editModal');
-    }
-    
+function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
 
-    function showModal(modalId)
+    input = document.getElementById("customerInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("customerTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) 
     {
-        var myModal = new bootstrap.Modal(document.getElementById(modalId), {
-        keyboard: false
-        })
-        myModal.toggle();
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) 
+        {
+            txtValue = td.textContent || td.innerText;
+
+            if (txtValue.toUpperCase().indexOf(filter) > -1) 
+            {
+                tr[i].style.display = "";
+            }     
+            else 
+            {
+                tr[i].style.display = "none";
+            }
+        }       
     }
+}
 </script>
 
 
