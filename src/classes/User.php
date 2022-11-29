@@ -46,7 +46,7 @@ class User
      */
     public static function login(string $name, string $password): ?User
     {
-        $params = array(":username" => $username);
+        $params = array(":name" => $name);
         $sth = getPDO()->prepare("SELECT `id`, `password_hash`, `member` FROM `user` WHERE `name` = :username LIMIT 1;");
         $sth->execute($params);
 
@@ -101,20 +101,20 @@ class User
         $sth = getPDO()->prepare("SELECT `id`, `name`, `password_hash`, `member` FROM `user` WHERE `name` = :name LIMIT 1;");
         $sth->execute($params);
 
-        if ($row = $sth->fetch()){
+        if ($row = $sth->fetch()) {
             return new User($row["id"], $name, $row["password_hash"], $row["member"] != 0);
-        }else{
+        } else {
             return null;
         }
     }
-    public static function getAllMembers() : array
+    public static function getAllMembers(): array
     {
         $sth = getPDO()->prepare("SELECT user.name, member.birthdate, member.phone, member.email, user.id 
         FROM `user` LEFT JOIN `member` ON member.user_id = user.id WHERE user.member != 0");
         $sth->execute();
         return $sth->fetchAll();
     }
-    public static function getMemberById($id) : ?User
+    public static function getMemberById($id): ?User
     {
         $params = array(":id" => $id);
         $sth = getPDO()->prepare("SELECT User.name, User.password_hash, User.member, member.birthdate, member.phone, member.email
