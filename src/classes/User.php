@@ -47,7 +47,7 @@ class User
     public static function login(string $name, string $password): ?User
     {
         $params = array(":name" => $name);
-        $sth = getPDO()->prepare("SELECT `id`, `password_hash`, `member` FROM `user` WHERE `name` = :username LIMIT 1;");
+        $sth = getPDO()->prepare("SELECT `id`, `password_hash`, `member` FROM `user` WHERE `name` = :name LIMIT 1;");
         $sth->execute($params);
 
         if ($row = $sth->fetch())
