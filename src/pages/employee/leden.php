@@ -2,8 +2,7 @@
 
 
 if($_SESSION["user"]->getMember()) {header("Location: ".ROOT);}
-if (Permission::getByUserId($_SESSION["user"]->getId())->getPermission()->value == "games") {header("Location: ".ROOT);}
-
+if (!in_array(PermissionType::MEMBERS, Permission::getByUserId($_SESSION["user"]->getId()))) {header("Location: ".ROOT);}
 ?>
 <section>
     <div class="container mt-5">
