@@ -61,6 +61,7 @@ function getPDO(): PDO
     require_once("pages" . ROUTE . ".php");
 
     ?>
+    <i class="fa-solid fa-chess"></i>
 </body>
 
 </html>

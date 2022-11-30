@@ -12,17 +12,17 @@
         <div class="d-flex justify-content-end">
             <a href="<?=ROOT . ROUTE?>/add">
                 <button type="button" class="btn btn-lg btn-light text-success border border-dark mb-2">
-                    <?php require("../public/icon/addMember.html"); ?>
+                <img src="../icon/addMember.svg">
                 </button>
             </a>
         </div>
         <table class="table table-borderd fs-5" id="customerTable">
             <thead>
                 <tr>
-                    <th scope="col" class="border border-dark">Naam</th>
-                    <th scope="col" class="border border-dark">Birthdate</th>
-                    <th scope="col" class="border border-dark">Telefoonnummer</th>
-                    <th scope="col" class="border border-dark">Email</th>
+                    <th scope="col" class="border border-dark">Naam <img src="../icon/blackPerson.svg"></th>
+                    <th scope="col" class="border border-dark">Birthdate <img src="../icon/calendar.svg"></th>
+                    <th scope="col" class="border border-dark">Telefoonnummer <img src="../icon/phone.svg"></th>
+                    <th scope="col" class="border border-dark">Email @</th>
                     <th scope="col" class="border border-dark">Wijzigen</th>
                 </tr>
             </thead>
@@ -36,12 +36,12 @@
                             <div class="d-flex justify-content-center text-dark pt-1">
                             <a href="<?=ROOT . ROUTE?>/edit?id=<?=$member["id"]?>">
                                 <button type="button" class="btn btn-lg btn-light text-info">
-                                    <?php require("../public/icon/editMember.html"); ?>
+                                    <img src="../icon/editMember.svg">
                                 </button>
                             </a>
                             <a href="<?=ROOT . ROUTE?>/delete?id=<?=$member["id"]?>">
                                 <button type="button" class="btn btn-lg btn-light text-danger">
-                                    <?php require("../public/icon/deleteMember.html"); ?>
+                                    <img src="../icon/deleteMember.svg">
                                 </button>
                                 </div>
                             </a>

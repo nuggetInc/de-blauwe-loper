@@ -89,7 +89,7 @@ class Game
      * @param string $endTime The time that the game ended.
      * @return User The game that was registered.
      */
-    public static function register(?int $whiteUserId, ?int $blackUserId, ?int $winnerUserId, string $startTime, string $endTime): Game
+    public static function register(?int $whiteUserId, ?int $blackUserId, ?string $winnerUserId, string $startTime, string $endTime): Game
     {
         $params = array(
             ":white_user_id" => $whiteUserId,
@@ -119,6 +119,15 @@ class Game
             return new Permission($id, $row["white_user_id"], $row["black_user_id"], $row["winner_user_id"], $row["start_time"], $row["end_time"]);
 
         return null;
+    }
+    /** Gets all the games out of the games table
+     * Left joins the user and game table
+     */
+    public static function getAllGames(): ?array
+    {
+        $sth = getPDO()->prepare("SELECT `white_user_id`, `black_user_id`, `winner_user_id`, `start_time`, `end_time`, `id` FROM `game`");
+        $sth->execute();
+        return $sth->fetchAll();
     }
 
     /** Updates the game by UID.
