@@ -38,8 +38,8 @@ if (Permission::getByUserId($_SESSION["user"]->getId())->getPermission()->value 
                         <td class="border border-dark"><?=User::get($game["white_user_id"])->getName()?></td>
                         <td class="border border-dark"><?=User::get($game["black_user_id"])->getName()?></td>
                         <td class="border border-dark"><?=isset($game["winner_user_id"]) ?  User::get($game["winner_user_id"])->getName() : "Geen winnaar"?></td>
-                        <td class="border border-dark"><?=date("d-m-Y h:m", strtotime($game["start_time"])) ?></td>
-                        <td class="border border-dark"><?=date("d-m-Y h:m", strtotime($game["end_time"])) ?></td>
+                        <td class="border border-dark"><?=date("d-m-Y h:i", strtotime($game["start_time"])) ?></td>
+                        <td class="border border-dark"><?=date("d-m-Y h:i", strtotime($game["end_time"])) ?></td>
                         <td class="border border-dark pt-2">
                             <div class="d-flex justify-content-center text-dark pt-1">
                             <a href="<?=ROOT . ROUTE?>/edit?id=<?=$game["id"]?>">

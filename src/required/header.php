@@ -39,11 +39,19 @@ if(isset($_SESSION["user"]))
                         </div>
                     </a>
                 <?php else : ?>
-                    <?php $onPage = (ROUTE == "/member/account/login-registreer"); ?>
-                    <a class="text-decoration-none" href="<?= ROOT . "/member/account/login-registreer" ?>">
+                    <?php $onPage = (ROUTE == "/member/account/registreer"); ?>
+                    <a class="text-decoration-none" href="<?= ROOT . "/member/account/registreer" ?>">
                         <div class="bg-<?= $onPage ? "dark" : "secondary" ?> rounded m-1" style="padding: 10px">
                             <li class="text-<?= $onPage ? "light" : "dark" ?>">
-                                Login/Registeer
+                                Registeer
+                            </li>
+                        </div>
+                    </a>
+                    <?php $onPage = (ROUTE == "/member/account/login"); ?>
+                    <a class="text-decoration-none" href="<?= ROOT . "/member/account/login" ?>">
+                        <div class="bg-<?= $onPage ? "dark" : "secondary" ?> rounded m-1" style="padding: 10px">
+                            <li class="text-<?= $onPage ? "light" : "dark" ?>">
+                                Login
                             </li>
                         </div>
                     </a>

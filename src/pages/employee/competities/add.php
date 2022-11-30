@@ -1,13 +1,12 @@
 <?php
 
-
-
 if(!empty($_POST)){
     
     $whitePlayer = User::getByName($_POST["whitePlayer"]);
     $blackPlayer = User::getByName($_POST["blackPlayer"]);
 
     Game::register($whitePlayer->getId(), $blackPlayer->getId(), NULL, $_POST["startDate"], $_POST["endDate"]);
+    header("Location: ".ROOT."/employee/competities");
 }
 ?>
 
@@ -46,7 +45,7 @@ if(!empty($_POST)){
             </div>
             <div class="mb-3">
                 <label class="form-label">Eind datum/tijd</label>
-                <input type="datetime-local" class="form-control fs-4" name="endDate" required>
+                <input type="datetime-local" class="form-control fs-4" name="endDate">
             </div>
             <div class="form-text mb-3">*Start en Eind datum kunnen later altijd bijgewerkt worden</div>
             <div class="mb-3 d-flex align-items-center justify-content-between">
