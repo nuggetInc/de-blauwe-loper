@@ -1,7 +1,7 @@
 $body-bg: #EDE0D4;
 $body-color: black;
 
-$primary: #B08968;
+$primary: #7F5539;
 $secondary: #d4b69a;
 $light: #dfc6ae;
 $dark: #7F5539;
@@ -46,7 +46,7 @@ $enable-shadows: true;
 }
 
 .btn-secondary {
-    @include button-variant($secondary, $secondary, $light, $hover-color: $light, $active-color: $light);
+    @include button-variant($secondary, $secondary, $dark, $hover-color: $dark, $active-color: $dark);
 }
 
 .btn-light {

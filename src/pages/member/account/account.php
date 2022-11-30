@@ -13,7 +13,7 @@ $member = Member::getByUser($user);
 // If the edit information form was submitted.
 if (isset($_POST["edit-account"], $_POST["name"], $_POST["birthdate"], $_POST["phone"], $_POST["email"])) {
     // Check if name only contains letters, spaces and "!"'s.
-    if (!preg_match("/^[a-zA-Z! ]+$/", $_POST["name"]))
+    if (!preg_match("/^[a-zA-Z0-9! ]+$/", $_POST["name"]))
         $_SESSION["name-error"] = "Naam mag alleen letters en spaties bevatten";
 
     // Check if birthdate is before today.
@@ -24,8 +24,8 @@ if (isset($_POST["edit-account"], $_POST["name"], $_POST["birthdate"], $_POST["p
     if (!preg_match("/^\+?[0-9 ]+$/", $_POST["phone"]))
         $_SESSION["phone-error"] = "Telefoonnummer is incorrect";
 
-    // Check if email only contains letters, numbers and "."'s before and after "@".
-    if (!preg_match("/^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$/", $_POST["email"]))
+    // Check if email is valid.
+    if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
         $_SESSION["email-error"] = "Email is incorrect";
 
     // Save data en reload if any errors are set.
@@ -181,7 +181,7 @@ $_SESSION["email-placeholder"] = $member->getEmail();
             <!-- Delete account form -->
             <div class="mt-4">
                 <h1>Account Verwijderen</h1>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                     Verwijderen
                 </button>
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -195,9 +195,9 @@ $_SESSION["email-placeholder"] = $member->getEmail();
                                 Account permanent verwijderen?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuleren</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
                                 <form method="POST">
-                                    <button type="submit" name="delete-account" class="btn btn-primary">Verwijderen</button>
+                                    <button type="submit" name="delete-account" class="btn btn-danger">Verwijderen</button>
                                 </form>
                             </div>
                         </div>
