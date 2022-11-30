@@ -87,7 +87,7 @@ class Game
      * @param ?int $winnerUserId The UID of the user that won the game.
      * @param string $startTime The time that the game started.
      * @param string $endTime The time that the game ended.
-     * @return User The game that was registered.
+     * @return Game The game that was registered.
      */
     public static function register(?int $whiteUserId, ?int $blackUserId, ?string $winnerUserId, string $startTime, string $endTime): Game
     {
