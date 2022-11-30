@@ -74,8 +74,11 @@ if (isset($_POST["edit-password"], $_POST["password"], $_POST["re-password"])) {
 
 // If the delete account form was submitted.
 if (isset($_POST["delete-account"])) {
-    // Delete user and associated data
-    User::delete($user->getId());
+    // Delete member and associated data.
+    $member->delete();
+
+    // Logout the user.
+    unset($_SESSION["user"]);
 
     // Reload the page to clear POST.
     header("Location: " . PATH);
@@ -176,10 +179,31 @@ $_SESSION["email-placeholder"] = $member->getEmail();
                 <button type="submit" name="edit-password" class="btn btn-primary">Wijzigen</button>
             </form>
             <!-- Delete account form -->
-            <form class="mt-4" method="POST">
+            <div class="mt-4">
                 <h1>Account Verwijderen</h1>
-                <button type="submit" name="delete-account" class="btn btn-primary">Verwijderen</button>
-            </form>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    Verwijderen
+                </button>
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Verwijderen</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Account permanent verwijderen?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">annuleren</button>
+                                <form method="POST">
+                                    <button type="submit" name="delete-account" class="btn btn-primary">Verwijderen</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
