@@ -1,8 +1,8 @@
 <?php 
 
 
-// if($_SESSION["user"]->getMember()) {header("Location: ".ROOT);}
-// if (Permission::getByUserId($_SESSION["user"]->getId())->getPermission()->value == "games") {header("Location: ".ROOT);}
+if($_SESSION["user"]->getMember()) {header("Location: ".ROOT);}
+if (Permission::getByUserId($_SESSION["user"]->getId())->getPermission()->value == "games") {header("Location: ".ROOT);}
 
 ?>
 <section>
