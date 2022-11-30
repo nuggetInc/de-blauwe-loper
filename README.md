@@ -1,6 +1,9 @@
-#de-blauwe-loper
+# de-blauwe-loper
+
 Fictional chessclub site
+
 Im Bob
+
 hi bob, Im dad
 
 ```
