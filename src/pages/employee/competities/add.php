@@ -1,12 +1,13 @@
 <?php
 
+
+
 if(!empty($_POST)){
     
     $whitePlayer = User::getByName($_POST["whitePlayer"]);
     $blackPlayer = User::getByName($_POST["blackPlayer"]);
 
     Game::register($whitePlayer->getId(), $blackPlayer->getId(), NULL, $_POST["startDate"], $_POST["endDate"]);
-    
 }
 ?>
 

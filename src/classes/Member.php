@@ -137,7 +137,10 @@ class Member
 
         return new Member($id, $userId, $birthdate, $phone, $email);
     }
-
+    /** Deletes User from user;
+     *  Deletes Member with associated user_id;
+     *  Set every created game wit associated user_id to 0;
+     */
     public function delete(): void
     {
         $params = array(":user_id" => $this->userId);

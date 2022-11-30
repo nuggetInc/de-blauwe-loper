@@ -1,6 +1,10 @@
+<?php 
 
 
+if($_SESSION["user"]->getMember()) {header("Location: ".ROOT);}
+if (Permission::getByUserId($_SESSION["user"]->getId())->getPermission()->value == "games") {header("Location: ".ROOT);}
 
+?>
 <section>
     <div class="container mt-5">
         <h3>Klant zoeken</h3>

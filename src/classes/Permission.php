@@ -73,6 +73,17 @@ class Permission
 
         return null;
     }
+    public static function getByUserId(int $user_id): ?Permission
+    {
+        $params = array(":user_id" => $user_id);
+        $sth = getPDO()->prepare("SELECT `id`, `user_id`, `permission` FROM `permission` WHERE `user_id` = :user_id LIMIT 1;");
+        $sth->execute($params);
+
+        if ($row = $sth->fetch())
+            return new Permission($row["id"], $row["user_id"], PermissionType::from($row["permission"]));
+
+        return null;
+    }
 
     /** Updates the permissions by UID.
      * @param int $id The UID of the permission to update.

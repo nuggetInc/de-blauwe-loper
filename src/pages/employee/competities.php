@@ -1,3 +1,9 @@
+<?php
+
+if($_SESSION["user"]->getMember()) {header("Location: ".ROOT);}
+if (Permission::getByUserId($_SESSION["user"]->getId())->getPermission()->value == "member") {header("Location: ".ROOT);}
+
+?>
 <section>
     <div class="container mt-5">
         <h3>Klant van wedstrijd zoeken</h3>
@@ -16,7 +22,7 @@
         <table class="table table-borderd fs-5" id="customerTable">
             <thead>
                 <tr>
-                    <th scope="col" class="border border-dark">.</th>
+                    <th scope="col" class="border border-dark"></th>
                     <th scope="col" class="border border-dark">Speler wit <img src="../icon/whitePerson.svg"></th>
                     <th scope="col" class="border border-dark">Speler zwart <img src="../icon/blackPerson.svg"></th>
                     <th scope="col" class="border border-dark">Winnaar <img src="../icon/winner.svg"></th>
