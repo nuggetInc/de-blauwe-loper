@@ -32,7 +32,9 @@ if(isset($_SESSION["user"]))
                         </a>
                     <?php endif ?>
                 <?php endforeach; ?>
-                <?php if(isset($_SESSION["user"]) && $_SESSION["user"]->getMember()) : ?>
+
+                <!-- If user is logged in and user is member -->
+                <?php if(isset($_SESSION["user"]) && $_SESSION["user"]->getMember()) : ?> 
                     <?php $onPage = (ROUTE == "/member/account/account"); ?>
                     <a class="text-decoration-none" href="<?= ROOT . "/member/account/account" ?>">
                         <div class="bg-<?= $onPage ? "dark" : "secondary" ?> rounded m-1" style="padding: 10px">
@@ -46,12 +48,16 @@ if(isset($_SESSION["user"]))
                             <li class="text-dark">Uitloggen</li>
                         </div>
                     </a>
+
+                <!-- If user is logged in and user isn't a member -->
                 <?php elseif(isset($_SESSION["user"]) && !$_SESSION["user"]->getMember()) : ?>
                     <a class="text-decoration-none" href="<?= ROOT . "/member/account/uitloggen" ?>">
                         <div class="bg-secondary rounded m-1" style="padding: 10px">
                             <li class="text-dark">Uitloggen</li>
                         </div>
                     </a>
+                
+                <!-- If user isn't logged in  -->
                 <?php elseif (!isset($_SESSION["user"])) : ?>
                     <?php $onPage = (ROUTE == "/member/account/login"); ?>
                     <a class="text-decoration-none" href="<?= ROOT . "/member/account/login" ?>">
