@@ -73,16 +73,18 @@ class Permission
 
         return null;
     }
-    public static function getByUserId(int $user_id): ?Permission
+    public static function getByUserId(int $user_id): ?array
     {
         $params = array(":user_id" => $user_id);
-        $sth = getPDO()->prepare("SELECT `id`, `user_id`, `permission` FROM `permission` WHERE `user_id` = :user_id LIMIT 1;");
+        $sth = getPDO()->prepare("SELECT `id`, `user_id`, `permission` FROM `permission` WHERE `user_id` = :user_id");
         $sth->execute($params);
 
-        if ($row = $sth->fetch())
-            return new Permission($row["id"], $row["user_id"], PermissionType::from($row["permission"]));
-
-        return null;
+        $arr = array();
+        while($row = $sth->fetch())
+        {
+            $arr[] = PermissionType::from($row["permission"]);
+        }
+        return $arr;
     }
 
     /** Updates the permissions by UID.

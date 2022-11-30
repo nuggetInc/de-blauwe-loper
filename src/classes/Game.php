@@ -107,7 +107,7 @@ class Game
 
     /** Gets a game by UID.
      * @param int $id The UID of the game to get.
-     * @return ?User The game, `null` if the UID doesn't exist.
+     * @return ?Game The game, `null` if the UID doesn't exist.
      */
     public static function get(int $id): ?Game
     {
@@ -116,7 +116,7 @@ class Game
         $sth->execute($params);
 
         if ($row = $sth->fetch())
-            return new Permission($id, $row["white_user_id"], $row["black_user_id"], $row["winner_user_id"], $row["start_time"], $row["end_time"]);
+            return new Game($id, $row["white_user_id"], $row["black_user_id"], $row["winner_user_id"], $row["start_time"], $row["end_time"]);
 
         return null;
     }
@@ -149,7 +149,7 @@ class Game
             ":start_time" => $startTime,
             ":end_time" => $endTime,
         );
-        $sth = getPDO()->prepare("UPDATE `game` SET `white_user_id` = :whiteUserId, `black_user_id` = :blackUserId, `winner_user_id` = :winnerUserId, `start_time` = :startTime, `end_time` = :endTime WHERE `id` = :id;");
+        $sth = getPDO()->prepare("UPDATE `game` SET `white_user_id` = :white_user_id, `black_user_id` = :black_user_id, `winner_user_id` = :winner_user_id, `start_time` = :start_time, `end_time` = :end_time WHERE `id` = :id;");
         $sth->execute($params);
 
         return new Game($id, $whiteUserId, $blackUserId, $winnerUserId, $startTime, $endTime);
@@ -158,9 +158,9 @@ class Game
     /** Deletes the game and associated member by UID.
      * @param int $id The UID of the game to delete.
      */
-    public static function delete(int $id): void
+    public function delete(): void
     {
-        $params = array(":id" => $id);
+        $params = array(":id" => $this->id);
         $sth = getPDO()->prepare("DELETE FROM `game` WHERE `id` = :id;");
         $sth->execute($params);
     }

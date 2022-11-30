@@ -49,7 +49,7 @@ if(!empty($_POST)){
             </div>
             <div class="form-text mb-3">*Start en Eind datum kunnen later altijd bijgewerkt worden</div>
             <div class="mb-3 d-flex align-items-center justify-content-between">
-                <a href="<?=ROOT?>/employee/leden"><button type="button" class="btn btn-lg btn-secondary text-dark">Terug</button></a>
+                <a href="<?=ROOT?>/employee/competities"><button type="button" class="btn btn-lg btn-secondary text-dark">Terug</button></a>
                 <input type="submit" class="btn btn-lg btn-success" value="Aanmaken">
             </div>
         </form>

@@ -1,7 +1,7 @@
 <?php
 
 if($_SESSION["user"]->getMember()) {header("Location: ".ROOT);}
-if (Permission::getByUserId($_SESSION["user"]->getId())->getPermission()->value == "member") {header("Location: ".ROOT);}
+if (!in_array(PermissionType::GAMES, Permission::getByUserId($_SESSION["user"]->getId()))) {header("Location: ".ROOT);}
 
 ?>
 <section>
@@ -78,8 +78,12 @@ function myFunction() {
         {
             txtValue1 = td1.textContent || td1.innerText;
             txtValue2 = td2.textContent || td2.innerText;
+            txtValueCombi = txtValue1 + " " +  txtValue2;
 
-            if (txtValue1.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) 
+            if (
+                txtValue1.toUpperCase().indexOf(filter) > -1 
+                || txtValue2.toUpperCase().indexOf(filter) > -1
+                || txtValueCombi.toUpperCase().indexOf(filter) > -1) 
             {
                 tr[i].style.display = "";
             }     
