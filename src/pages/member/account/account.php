@@ -81,7 +81,7 @@ if (isset($_POST["delete-account"])) {
     unset($_SESSION["user"]);
 
     // Reload the page to clear POST.
-    header("Location: " . PATH);
+    header("Location: " . ROOT . "/member/account/registreer");
     exit;
 }
 
