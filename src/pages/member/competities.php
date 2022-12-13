@@ -5,7 +5,7 @@ declare(strict_types=1);
 ?>
 <section>
     <div class="container mt-5">
-        <h3>Klant van wedstrijd zoeken</h3>
+        <h3>Wedstrijd van lid zoeken</h3>
         <div style="width: 30%">
             <div class="input-group mb-5">
                 <input type="text" class="form-control" id="customerInput" onkeyup="myFunction()" placeholder="Klant zoeken">
