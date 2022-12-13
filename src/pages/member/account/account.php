@@ -7,7 +7,7 @@ if (!isset($_SESSION["user"])) {
     exit;
 }
 
-$user = User::get($_SESSION["user"]->getID());
+$user = $_SESSION["user"];
 $member = Member::getByUser($user);
 
 // If the edit information form was submitted.
@@ -40,7 +40,7 @@ if (isset($_POST["edit-account"], $_POST["name"], $_POST["birthdate"], $_POST["p
     }
 
     // Update database when all checks pass.
-    User::update($user->getId(), $_POST["name"], $user->getMember());
+    $_SESSION["user"] = User::update($user->getId(), $_POST["name"], $user->getMember());
     Member::update($member->getId(), $user->getId(), $_POST["birthdate"], $_POST["phone"], $_POST["email"]);
 
     // Reload the page to clear POST.
