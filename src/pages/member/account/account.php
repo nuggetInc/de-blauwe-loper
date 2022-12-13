@@ -7,7 +7,7 @@ if (!isset($_SESSION["user"])) {
     exit;
 }
 
-$user = $_SESSION["user"];
+$user = User::get($_SESSION["user"]->getID());
 $member = Member::getByUser($user);
 
 // If the edit information form was submitted.
