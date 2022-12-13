@@ -12,7 +12,7 @@ if(!empty($_POST)){
 
     Game::update(
         $game->getId(), $whitePlayer->getId(), $blackPlayer->getId(), 
-        $winner->getId(), $_POST["startDate"], $_POST["endDate"]
+        $_POST["winner"], $_POST["startDate"], $_POST["endDate"]
     );
     header("Location: ".ROOT."/employee/competities");
 
@@ -50,12 +50,10 @@ if(!empty($_POST)){
             </div>
             <label>Winnaar</label>
             <div class="mb-3 d-flex align-items-center justify-content-between">
-                <input type="text" name="winner" list="customers" class="form-control fs-4" value="<?=$winner?>" required>
-                <datalist id="customers">
-                    <?php foreach (User::getAllMembers() as $member) : ?>
-                        <option class="form-control fs-4" value="<?= $member["name"] ?>"></option>
-                    <?php endforeach; ?>
-                </datalist>
+                <select type="number" name="winner" list="customers" class="form-control fs-4" value="<?=$winner?>" required>
+                    <option class="form-control fs-4" value="<?=$game->getWhiteUserId()?>"><?=User::get($game->getWhiteUserId())->getName()?></option>
+                    <option class="form-control fs-4" value="<?=$game->getBlackUserId()?>"><?=User::get($game->getBlackUserId())->getName()?></option>
+                </select>
                 <a href="<?= ROOT ?>/employee/leden/add"><button type="button" class="btn btn-lg btn-info m-2"><strong>+</strong></button></a>
             </div>
             <div class="mb-3">

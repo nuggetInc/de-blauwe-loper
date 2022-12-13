@@ -1,7 +1,7 @@
 <?php
 
 $game = Game::get($_GET["id"]);
-$winner = (!empty($game->getWinnerUserId())) ? User::get($game->getWinnerUserId())->getName() : "";
+$winner = ($game->getWinnerUserId() !== NULL) ? User::get($game->getWinnerUserId())->getName() : "";
 
 if(!empty($_POST)){
     

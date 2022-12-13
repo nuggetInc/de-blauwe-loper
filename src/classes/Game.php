@@ -7,13 +7,41 @@ require_once("classes/User.php");
 class Game
 {
     private function __construct(
-        private int $id,
-        private ?int $whiteUserId,
-        private ?int $blackUserId,
-        private ?int $winnerUserId,
-        private string $startTime,
-        private string $endTime,
+        readonly private int $id,
+        readonly private ?int $whiteUserId,
+        readonly private ?int $blackUserId,
+        readonly private ?int $winnerUserId,
+        readonly private string $startTime,
+        readonly private string $endTime,
     ) {
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getWhiteUserId(): ?int
+    {
+        return $this->whiteUserId;
+    }
+
+    public function getBlackUserId(): ?int
+    {
+        return $this->blackUserId;
+    }
+    public function getWinnerUserId(): ?int
+    {
+        return $this->winnerUserId;
+    }
+
+    public function getStartTime(): ?string
+    {
+        return $this->startTime;
+    }
+    public function getEndTime(): ?string
+    {
+        return $this->endTime;
     }
 
     /** Gets the user that played white
