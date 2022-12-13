@@ -6,14 +6,6 @@ require_once("classes/User.php");
 
 class Game
 {
-    /**
-     * @param int $id The UID of the game. Automatically increments.
-     * @param ?int $whiteUserId The UID of the user that played white. Null if user doesn't exist
-     * @param ?int $blackUserId The UID of the user that played black. Null if user doesn't exist
-     * @param ?int $winnerUserId The UID of the user that won the game. Null if user doesn't exist, 0 if draw.
-     * @param string $startTime The time that the game started.
-     * @param string $endTime The time that the game ended.
-     */
     private function __construct(
         private int $id,
         private ?int $whiteUserId,
@@ -22,36 +14,6 @@ class Game
         private string $startTime,
         private string $endTime,
     ) {
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getWhiteUserId(): ?int
-    {
-        return $this->whiteUserId;
-    }
-
-    public function getBlackUserId(): ?int
-    {
-        return $this->blackUserId;
-    }
-
-    public function getWinnerUserId(): ?int
-    {
-        return $this->winnerUserId;
-    }
-
-    public function getStartTime(): string
-    {
-        return $this->startTime;
-    }
-
-    public function getEndTime(): string
-    {
-        return $this->endTime;
     }
 
     /** Gets the user that played white
